@@ -1,0 +1,68 @@
+from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QPushButton, QLineEdit, QVBoxLayout, QHBoxLayout, QSpinBox
+from PyQt5.QtCore import Qt, QLocale
+from PyQt5.QtGui import QDoubleValidator, QIntValidator
+
+app = QApplication([])
+
+class Window(QWidget):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.loc = QLocale(QLocale.English, QLocale.UnitedStates)
+        self.validator = QDoubleValidator()
+        self.validator.setLocale(self.loc)
+        self.set_appear()
+        self.unitUI()
+        #self.connects()
+        self.show()
+        
+    def set_appear(self):
+        self.setWindowTitle('Финансовый калькулятор')
+        self.resize(1600, 800)
+    def unitUI(self):
+        self.label1 = QLabel('Ставка:', self)
+        self.edit1 = QLineEdit('0', self)
+        self.label2 = QLabel('процентов', self)
+        self.label3 = QLabel('начисление раз в', self)
+        self.spin_box1 = QSpinBox(self)
+        self.label4 = QLabel('месяцев', self)
+        self.button1 = QPushButton('OK', self)
+        self.label5 = QLabel('Итог:', self)
+        self.label6 = QLabel('0.0', self)
+        self.label7 = QLabel('рублей', self)
+        self.button2 = QPushButton('+', self)
+        self.label8 = QLabel(':              лет              :', self)
+        self.edit2 = QLineEdit('0', self)
+        self.label9 = QLabel(':          месяцев          :', self)
+        self.edit3 = QLineEdit('0', self)
+        self.label10 = QLabel(':            сумма            :', self)
+        self.edit4 = QLineEdit('0', self)
+        self.label11 = QLabel('Итог:', self)
+        self.label12 = QLabel('0.0000', self)
+
+
+        self.edit1.setValidator(self.validator)
+        #self.edit2.setValidator(self.validator)
+        #self.edit2.setValidator(QIntValidator(0, 11))
+        self.spin_box1.setRange(0, 12)
+
+        self.label1.move(30, 150)
+        self.edit1.move(80, 148)
+        self.label2.move(220, 150)
+        self.button1.move(30, 250)
+        self.label3.move(1200, 150)
+        self.spin_box1.move(1310, 148)
+        self.label4.move(1360, 150)
+        self.label5.move(650, 250)
+        self.label6.move(700, 250)
+        self.label7.move(750, 250)
+        self.button2.move(1310, 250)
+        self.label8.move(28, 470)
+        self.edit2.move(30, 500)
+        self.label9.move(198, 470)
+        self.edit3.move(200, 500)
+        self.label10.move(998, 470)
+        self.edit4.move(1000, 500)
+        self.label11.move(1400, 470)
+        self.label12.move(1400, 500)
+first_window = Window()
+app.exec_()
