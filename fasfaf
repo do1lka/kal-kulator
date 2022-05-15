@@ -12,12 +12,13 @@ class Window(QWidget):
         self.validator.setLocale(self.loc)
         self.set_appear()
         self.unitUI()
-        #self.connects()
+        self.connects()
         self.show()
         
     def set_appear(self):
         self.setWindowTitle('Финансовый калькулятор')
         self.resize(1600, 800)
+
     def unitUI(self):
         self.label1 = QLabel('Ставка:', self)
         self.edit1 = QLineEdit('0', self)
@@ -27,7 +28,7 @@ class Window(QWidget):
         self.label4 = QLabel('месяцев', self)
         self.button1 = QPushButton('OK', self)
         self.label5 = QLabel('Итог:', self)
-        self.label6 = QLabel('0.0', self)
+        self.label6 = QLabel('0.000000', self)
         self.label7 = QLabel('рублей', self)
         self.button2 = QPushButton('+', self)
         self.label8 = QLabel(':              лет              :', self)
@@ -43,7 +44,7 @@ class Window(QWidget):
         self.edit1.setValidator(self.validator)
         #self.edit2.setValidator(self.validator)
         #self.edit2.setValidator(QIntValidator(0, 11))
-        self.spin_box1.setRange(0, 12)
+        self.spin_box1.setRange(1, 12)
 
         self.label1.move(30, 150)
         self.edit1.move(80, 148)
@@ -53,7 +54,7 @@ class Window(QWidget):
         self.spin_box1.move(1310, 148)
         self.label4.move(1360, 150)
         self.label5.move(650, 250)
-        self.label6.move(700, 250)
+        self.label6.move(690, 250)
         self.label7.move(750, 250)
         self.button2.move(1310, 250)
         self.label8.move(28, 470)
@@ -64,5 +65,26 @@ class Window(QWidget):
         self.edit4.move(1000, 500)
         self.label11.move(1400, 470)
         self.label12.move(1400, 500)
+
+    def result(self):
+        amount = int(self.edit4.text())
+        R = int(self.edit1.text()) / 100
+        if int(self.edit3.text()) >= int(self.spin_box1.text()):
+            N = (int(self.edit2.text()) * 12 + int(self.edit3.text())) / int(self.spin_box1.text())
+            NPV = float(amount) * (1 + R) ** float(N)
+            self.label6.setText(str(NPV))
+        else:
+            N = int(self.edit2.text()) * 12 / int(self.spin_box1.text())
+            NPV = float(amount) * (1 + R) ** float(N)
+            self.label6.setText(str(NPV))  
+        if int(self.edit2.text()) == 0 and int(self.edit3.text()) < int(self.spin_box1.text()):
+                N = int(self.edit3.text()) / int(self.spin_box1.text())
+                NPV = float(amount) * (1 + R) ** float(N)
+                self.label6.setText(str(NPV))
+
+    def connects(self):
+        self.button1.clicked.connect(self.result)
+        #self.button2.clicked.connect(self.)
+
 first_window = Window()
 app.exec_()
